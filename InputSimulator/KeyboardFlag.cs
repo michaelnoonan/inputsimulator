@@ -8,6 +8,7 @@ namespace WindowsInput
     /// <summary>
     /// Specifies various aspects of a keystroke. This member can be certain combinations of the following values.
     /// </summary>
+    [Flags]
     public enum KeyboardFlag : uint // UInt32
     {
         /// <summary>

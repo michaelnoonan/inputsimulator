@@ -5,9 +5,9 @@ using System.Text;
 
 namespace WindowsInput
 {
-/// <summary>
-/// The list of VirtualKeyCodes (see: http://msdn.microsoft.com/en-us/library/ms645540(VS.85).aspx)
-/// </summary>
+    /// <summary>
+    /// The list of VirtualKeyCodes (see: http://msdn.microsoft.com/en-us/library/ms645540(VS.85).aspx)
+    /// </summary>
     public enum VirtualKeyCode : ushort // UInt16
     {
         /// <summary>

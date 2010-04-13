@@ -13,16 +13,16 @@ namespace WindowsInput
         /// <summary>
         /// INPUT_MOUSE = 0x00 (The event is a mouse event. Use the mi structure of the union.)
         /// </summary>
-        MOUSE = 0,
+        Mouse = 0,
 
         /// <summary>
         /// INPUT_KEYBOARD = 0x01 (The event is a keyboard event. Use the ki structure of the union.)
         /// </summary>
-        KEYBOARD = 1,
+        Keyboard = 1,
 
         /// <summary>
         /// INPUT_HARDWARE = 0x02 (Windows 95/98/Me: The event is from input hardware other than a keyboard or mouse. Use the hi structure of the union.)
         /// </summary>
-        HARDWARE = 2,
+        Hardware = 2,
     }
 }
