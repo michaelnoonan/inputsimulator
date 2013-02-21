@@ -1,16 +1,23 @@
-﻿using WindowsInput.Native;
-
-namespace WindowsInput
+﻿namespace WindowsInput
 {
-    internal enum MouseButton
+    /// <summary>
+    /// The mouse button
+    /// </summary>
+    public enum MouseButton
     {
+        /// <summary>
+        /// Left mouse button
+        /// </summary>
         LeftButton,
-        MiddleButton,
-        RightButton,
-    }
 
-    internal static class MouseButtonExtensions
-    {
-        
+        /// <summary>
+        /// Middle mouse button
+        /// </summary>
+        MiddleButton,
+
+        /// <summary>
+        /// Right moust button
+        /// </summary>
+        RightButton,
     }
 }

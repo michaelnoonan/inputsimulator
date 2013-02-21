@@ -8,10 +8,10 @@ namespace WindowsInput
     /// <summary>
     /// A helper class for building a list of <see cref="INPUT"/> messages ready to be sent to the native Windows API.
     /// </summary>
-    internal class InputBuilder : IEnumerable<INPUT>
+    public class InputBuilder : IEnumerable<INPUT>
     {
         /// <summary>
-        /// The internal list of <see cref="INPUT"/> messages being built by this instance.
+        /// The public list of <see cref="INPUT"/> messages being built by this instance.
         /// </summary>
         private readonly List<INPUT> _inputList;
 
@@ -262,6 +262,12 @@ namespace WindowsInput
             return AddCharacters(characters.ToCharArray());
         }
 
+        /// <summary>
+        /// Moves the mouse relative to its current position.
+        /// </summary>
+        /// <param name="x"></param>
+        /// <param name="y"></param>
+        /// <returns>This <see cref="InputBuilder"/> instance.</returns>
         public InputBuilder AddRelativeMouseMovement(int x, int y)
         {
             var movement = new INPUT { Type = (UInt32)InputType.Mouse };
@@ -274,6 +280,12 @@ namespace WindowsInput
             return this;
         }
 
+        /// <summary>
+        /// Move the mouse to an absolute position.
+        /// </summary>
+        /// <param name="absoluteX"></param>
+        /// <param name="absoluteY"></param>
+        /// <returns>This <see cref="InputBuilder"/> instance.</returns>
         public InputBuilder AddAbsoluteMouseMovement(int absoluteX, int absoluteY)
         {
             var movement = new INPUT { Type = (UInt32)InputType.Mouse };
@@ -286,6 +298,12 @@ namespace WindowsInput
             return this;
         }
 
+        /// <summary>
+        /// Move the mouse to the absolute position on the virtual desktop.
+        /// </summary>
+        /// <param name="absoluteX"></param>
+        /// <param name="absoluteY"></param>
+        /// <returns>This <see cref="InputBuilder"/> instance.</returns>
         public InputBuilder AddAbsoluteMouseMovementOnVirtualDesktop(int absoluteX, int absoluteY)
         {
             var movement = new INPUT { Type = (UInt32)InputType.Mouse };
@@ -298,6 +316,11 @@ namespace WindowsInput
             return this;
         }
 
+        /// <summary>
+        /// Adds a mouse button down for the specified button.
+        /// </summary>
+        /// <param name="button"></param>
+        /// <returns>This <see cref="InputBuilder"/> instance.</returns>
         public InputBuilder AddMouseButtonDown(MouseButton button)
         {
             var buttonDown = new INPUT { Type = (UInt32)InputType.Mouse };
@@ -308,6 +331,11 @@ namespace WindowsInput
             return this;
         }
 
+        /// <summary>
+        /// Adds a mouse button down for the specified button.
+        /// </summary>
+        /// <param name="xButtonId"></param>
+        /// <returns>This <see cref="InputBuilder"/> instance.</returns>
         public InputBuilder AddMouseXButtonDown(int xButtonId)
         {
             var buttonDown = new INPUT { Type = (UInt32)InputType.Mouse };
@@ -318,6 +346,11 @@ namespace WindowsInput
             return this;
         }
 
+        /// <summary>
+        /// Adds a mouse button up for the specified button.
+        /// </summary>
+        /// <param name="button"></param>
+        /// <returns>This <see cref="InputBuilder"/> instance.</returns>
         public InputBuilder AddMouseButtonUp(MouseButton button)
         {
             var buttonUp = new INPUT { Type = (UInt32)InputType.Mouse };
@@ -327,6 +360,11 @@ namespace WindowsInput
             return this;
         }
 
+        /// <summary>
+        /// Adds a mouse button up for the specified button.
+        /// </summary>
+        /// <param name="xButtonId"></param>
+        /// <returns>This <see cref="InputBuilder"/> instance.</returns>
         public InputBuilder AddMouseXButtonUp(int xButtonId)
         {
             var buttonUp = new INPUT { Type = (UInt32)InputType.Mouse };
@@ -337,26 +375,51 @@ namespace WindowsInput
             return this;
         }
 
+        /// <summary>
+        /// Adds a single click of the specified button.
+        /// </summary>
+        /// <param name="button"></param>
+        /// <returns>This <see cref="InputBuilder"/> instance.</returns>
         public InputBuilder AddMouseButtonClick(MouseButton button)
         {
             return AddMouseButtonDown(button).AddMouseButtonUp(button);
         }
 
+        /// <summary>
+        /// Adds a single click of the specified button.
+        /// </summary>
+        /// <param name="xButtonId"></param>
+        /// <returns>This <see cref="InputBuilder"/> instance.</returns>
         public InputBuilder AddMouseXButtonClick(int xButtonId)
         {
             return AddMouseXButtonDown(xButtonId).AddMouseXButtonUp(xButtonId);
         }
 
+        /// <summary>
+        /// Adds a double click of the specified button.
+        /// </summary>
+        /// <param name="button"></param>
+        /// <returns>This <see cref="InputBuilder"/> instance.</returns>
         public InputBuilder AddMouseButtonDoubleClick(MouseButton button)
         {
             return AddMouseButtonClick(button).AddMouseButtonClick(button);
         }
 
+        /// <summary>
+        /// Adds a double click of the specified button.
+        /// </summary>
+        /// <param name="xButtonId"></param>
+        /// <returns>This <see cref="InputBuilder"/> instance.</returns>
         public InputBuilder AddMouseXButtonDoubleClick(int xButtonId)
         {
             return AddMouseXButtonClick(xButtonId).AddMouseXButtonClick(xButtonId);
         }
 
+        /// <summary>
+        /// Scroll the vertical mouse wheel by the specified amount.
+        /// </summary>
+        /// <param name="scrollAmount"></param>
+        /// <returns>This <see cref="InputBuilder"/> instance.</returns>
         public InputBuilder AddMouseVerticalWheelScroll(int scrollAmount)
         {
             var scroll = new INPUT { Type = (UInt32)InputType.Mouse };
@@ -368,6 +431,11 @@ namespace WindowsInput
             return this;
         }
 
+        /// <summary>
+        /// Scroll the horizontal mouse wheel by the specified amount.
+        /// </summary>
+        /// <param name="scrollAmount"></param>
+        /// <returns>This <see cref="InputBuilder"/> instance.</returns>
         public InputBuilder AddMouseHorizontalWheelScroll(int scrollAmount)
         {
             var scroll = new INPUT { Type = (UInt32)InputType.Mouse };

@@ -7,7 +7,7 @@ namespace WindowsInput
     /// <summary>
     /// Implements the <see cref="IInputMessageDispatcher"/> by calling <see cref="NativeMethods.SendInput"/>.
     /// </summary>
-    internal class WindowsInputMessageDispatcher : IInputMessageDispatcher
+    public class WindowsInputMessageDispatcher : IInputMessageDispatcher
     {
         /// <summary>
         /// Dispatches the specified list of <see cref="INPUT"/> messages in their specified order by issuing a single called to <see cref="NativeMethods.SendInput"/>.
