@@ -1,9 +1,8 @@
-﻿using System;
-using NUnit.Framework;
+﻿using NUnit.Framework;
 using System.Threading;
 using WindowsInput.Native;
 
-namespace WindowsInput.UnitTests
+namespace WindowsInput.Tests
 {
     [TestFixture]
     public class InputSimulatorExamples

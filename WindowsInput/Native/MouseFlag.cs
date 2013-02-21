@@ -6,7 +6,7 @@ namespace WindowsInput.Native
     /// The set of MouseFlags for use in the Flags property of the <see cref="MOUSEINPUT"/> structure. (See: http://msdn.microsoft.com/en-us/library/ms646273(VS.85).aspx)
     /// </summary>
     [Flags]
-    public enum MouseFlag : uint // UInt32
+    internal enum MouseFlag : uint // UInt32
     {
         /// <summary>
         /// Specifies that movement occurred.

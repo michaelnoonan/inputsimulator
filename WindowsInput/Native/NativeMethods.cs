@@ -6,7 +6,7 @@ namespace WindowsInput.Native
     /// <summary>
     /// References all of the Native Windows API methods for the WindowsInput functionality.
     /// </summary>
-    public static class NativeMethods
+    internal static class NativeMethods
     {
         /// <summary>
         /// The GetAsyncKeyState function determines whether a key is up or down at the time the function is called, and whether the key was pressed after a previous call to GetAsyncKeyState. (See: http://msdn.microsoft.com/en-us/library/ms646293(VS.85).aspx)

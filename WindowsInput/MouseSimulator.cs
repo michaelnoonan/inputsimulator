@@ -20,7 +20,7 @@ namespace WindowsInput
         /// </summary>
         /// <param name="messageDispatcher">The <see cref="IInputMessageDispatcher"/> to use for dispatching <see cref="INPUT"/> messages.</param>
         /// <exception cref="InvalidOperationException">If null is passed as the <paramref name="messageDispatcher"/>.</exception>
-        public MouseSimulator(IInputMessageDispatcher messageDispatcher)
+        internal MouseSimulator(IInputMessageDispatcher messageDispatcher)
         {
             if (messageDispatcher == null)
                 throw new InvalidOperationException(

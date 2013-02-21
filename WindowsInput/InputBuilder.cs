@@ -8,7 +8,7 @@ namespace WindowsInput
     /// <summary>
     /// A helper class for building a list of <see cref="INPUT"/> messages ready to be sent to the native Windows API.
     /// </summary>
-    public class InputBuilder : IEnumerable<INPUT>
+    internal class InputBuilder : IEnumerable<INPUT>
     {
         /// <summary>
         /// The public list of <see cref="INPUT"/> messages being built by this instance.

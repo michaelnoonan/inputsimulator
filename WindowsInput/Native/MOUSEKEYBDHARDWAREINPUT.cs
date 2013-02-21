@@ -7,7 +7,7 @@ namespace WindowsInput.Native
     /// The combined/overlayed structure that includes Mouse, Keyboard and Hardware Input message data (see: http://msdn.microsoft.com/en-us/library/ms646270(VS.85).aspx)
     /// </summary>
     [StructLayout(LayoutKind.Explicit)]
-    public struct MOUSEKEYBDHARDWAREINPUT
+    internal struct MOUSEKEYBDHARDWAREINPUT
     {
         /// <summary>
         /// The <see cref="MOUSEINPUT"/> definition.

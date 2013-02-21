@@ -2,7 +2,7 @@
 using NUnit.Framework;
 using WindowsInput.Native;
 
-namespace WindowsInput.UnitTests
+namespace WindowsInput.Tests
 {
     [TestFixture]
     public class InputBuilderTests
