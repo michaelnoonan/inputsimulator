@@ -75,14 +75,22 @@ namespace WindowsInput
         /// <returns>This <see cref="InputBuilder"/> instance.</returns>
         public InputBuilder AddKeyDown(VirtualKeyCode keyCode)
         {
-            var down = new INPUT();
-            down.Type = (UInt32)InputType.Keyboard;
-            down.Data.Keyboard = new KEYBDINPUT();
-            down.Data.Keyboard.KeyCode = (UInt16)keyCode;
-            down.Data.Keyboard.Scan = 0;
-            down.Data.Keyboard.Flags = 0;
-            down.Data.Keyboard.Time = 0;
-            down.Data.Keyboard.ExtraInfo = IntPtr.Zero;
+            var down = new INPUT
+                           {
+                               Type = (UInt32) InputType.Keyboard,
+                               Data =
+                                   {
+                                       Keyboard =
+                                           new KEYBDINPUT
+                                               {
+                                                   KeyCode = (UInt16) keyCode,
+                                                   Scan = 0,
+                                                   Flags = 0,
+                                                   Time = 0,
+                                                   ExtraInfo = IntPtr.Zero
+                                               }
+                                   }
+                           };
 
             _inputList.Add(down);
             return this;
@@ -95,14 +103,22 @@ namespace WindowsInput
         /// <returns>This <see cref="InputBuilder"/> instance.</returns>
         public InputBuilder AddKeyUp(VirtualKeyCode keyCode)
         {
-            var up = new INPUT();
-            up.Type = (UInt32)InputType.Keyboard;
-            up.Data.Keyboard = new KEYBDINPUT();
-            up.Data.Keyboard.KeyCode = (UInt16)keyCode;
-            up.Data.Keyboard.Scan = 0;
-            up.Data.Keyboard.Flags = (UInt32)KeyboardFlag.KeyUp;
-            up.Data.Keyboard.Time = 0;
-            up.Data.Keyboard.ExtraInfo = IntPtr.Zero;
+            var up = new INPUT
+                         {
+                             Type = (UInt32) InputType.Keyboard,
+                             Data =
+                                 {
+                                     Keyboard =
+                                         new KEYBDINPUT
+                                             {
+                                                 KeyCode = (UInt16) keyCode,
+                                                 Scan = 0,
+                                                 Flags = (UInt32) KeyboardFlag.KeyUp,
+                                                 Time = 0,
+                                                 ExtraInfo = IntPtr.Zero
+                                             }
+                                 }
+                         };
 
             _inputList.Add(up);
             return this;
@@ -230,7 +246,7 @@ namespace WindowsInput
         {
             var buttonDown = new INPUT();
             buttonDown.Type = (UInt32)InputType.Mouse;
-            buttonDown.Data.Mouse.Flags = (UInt32)button.ToMouseButtonDownFlag();
+            buttonDown.Data.Mouse.Flags = (UInt32)ToMouseButtonDownFlag(button);
 
             _inputList.Add(buttonDown);
 
@@ -252,7 +268,7 @@ namespace WindowsInput
         {
             var buttonUp = new INPUT();
             buttonUp.Type = (UInt32)InputType.Mouse;
-            buttonUp.Data.Mouse.Flags = (UInt32)button.ToMouseButtonUpFlag();
+            buttonUp.Data.Mouse.Flags = (UInt32)ToMouseButtonUpFlag(button);
             _inputList.Add(buttonUp);
 
             return this;
@@ -313,6 +329,41 @@ namespace WindowsInput
             return this;
         }
 
+        private static MouseFlag ToMouseButtonDownFlag(MouseButton button)
+        {
+            switch (button)
+            {
+                case MouseButton.LeftButton:
+                    return MouseFlag.LeftDown;
+
+                case MouseButton.MiddleButton:
+                    return MouseFlag.MiddleDown;
+
+                case MouseButton.RightButton:
+                    return MouseFlag.RightDown;
+
+                default:
+                    return MouseFlag.LeftDown;
+            }
+        }
+
+        private static MouseFlag ToMouseButtonUpFlag(MouseButton button)
+        {
+            switch (button)
+            {
+                case MouseButton.LeftButton:
+                    return MouseFlag.LeftUp;
+
+                case MouseButton.MiddleButton:
+                    return MouseFlag.MiddleUp;
+
+                case MouseButton.RightButton:
+                    return MouseFlag.RightUp;
+
+                default:
+                    return MouseFlag.LeftUp;
+            }
+        }
         #endregion
     }
 }

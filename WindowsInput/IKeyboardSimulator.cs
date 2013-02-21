@@ -22,6 +22,12 @@ namespace WindowsInput
         void KeyPress(VirtualKeyCode keyCode);
 
         /// <summary>
+        /// Simulates a key press for each of the specified key codes in the order they are specified.
+        /// </summary>
+        /// <param name="keyCodes"></param>
+        void KeyPress(params VirtualKeyCode[] keyCodes);
+
+        /// <summary>
         /// Simulates the key up gesture for the specified key.
         /// </summary>
         /// <param name="keyCode">The <see cref="VirtualKeyCode"/> for the key.</param>

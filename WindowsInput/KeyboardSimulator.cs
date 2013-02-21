@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using WindowsInput.Native;
 
 namespace WindowsInput
@@ -36,6 +35,27 @@ namespace WindowsInput
         public KeyboardSimulator()
         {
             _messageDispatcher = new WindowsInputMessageDispatcher();
+        }
+
+        private void ModifiersDown(InputBuilder builder, IEnumerable<VirtualKeyCode> modifierKeyCodes)
+        {
+            if (modifierKeyCodes == null) return;
+            foreach (var key in modifierKeyCodes) builder.AddKeyDown(key);
+        }
+
+        private void ModifiersUp(InputBuilder builder, IEnumerable<VirtualKeyCode> modifierKeyCodes)
+        {
+            if (modifierKeyCodes == null) return;
+
+            // Key up in reverse (I miss LINQ)
+            var stack = new Stack<VirtualKeyCode>(modifierKeyCodes);
+            while (stack.Count > 0) builder.AddKeyUp(stack.Pop());
+        }
+
+        private void KeysPress(InputBuilder builder, IEnumerable<VirtualKeyCode> keyCodes)
+        {
+            if (keyCodes == null) return;
+            foreach (var key in keyCodes) builder.AddKeyPress(key);
         }
 
         /// <summary>
@@ -76,13 +96,19 @@ namespace WindowsInput
         /// <param name="keyCode">The <see cref="VirtualKeyCode"/> to press</param>
         public void KeyPress(VirtualKeyCode keyCode)
         {
-            var inputList =
-                new InputBuilder()
-                    .AddKeyDown(keyCode)
-                    .AddKeyUp(keyCode)
-                    .ToArray();
-
+            var inputList = new InputBuilder().AddKeyPress(keyCode).ToArray();
             SendSimulatedInput(inputList);
+        }
+
+        /// <summary>
+        /// Simulates a key press for each of the specified key codes in the order they are specified.
+        /// </summary>
+        /// <param name="keyCodes"></param>
+        public void KeyPress(params VirtualKeyCode[] keyCodes)
+        {
+            var builder = new InputBuilder();
+            KeysPress(builder, keyCodes);
+            SendSimulatedInput(builder.ToArray());
         }
 
         /// <summary>
@@ -93,14 +119,7 @@ namespace WindowsInput
         /// <param name="keyCode">The key to simulate</param>
         public void ModifiedKeyStroke(VirtualKeyCode modifierKeyCode, VirtualKeyCode keyCode)
         {
-            var inputList =
-                new InputBuilder()
-                    .AddKeyDown(modifierKeyCode)
-                    .AddKeyPress(keyCode)
-                    .AddKeyUp(modifierKeyCode)
-                    .ToArray();
-
-            SendSimulatedInput(inputList);
+            ModifiedKeyStroke(new[] { modifierKeyCode }, new[] { keyCode });
         }
 
         /// <summary>
@@ -111,12 +130,7 @@ namespace WindowsInput
         /// <param name="keyCode">The key to simulate</param>
         public void ModifiedKeyStroke(IEnumerable<VirtualKeyCode> modifierKeyCodes, VirtualKeyCode keyCode)
         {
-            var builder = new InputBuilder();
-            if (modifierKeyCodes != null) modifierKeyCodes.ToList().ForEach(x => builder.AddKeyDown(x));
-            builder.AddKeyPress(keyCode);
-            if (modifierKeyCodes != null) modifierKeyCodes.Reverse().ToList().ForEach(x => builder.AddKeyUp(x));
-
-            SendSimulatedInput(builder.ToArray());
+            ModifiedKeyStroke(modifierKeyCodes, new[] {keyCode});
         }
 
         /// <summary>
@@ -127,12 +141,7 @@ namespace WindowsInput
         /// <param name="keyCodes">The list of keys to simulate</param>
         public void ModifiedKeyStroke(VirtualKeyCode modifierKey, IEnumerable<VirtualKeyCode> keyCodes)
         {
-            var builder = new InputBuilder();
-            builder.AddKeyDown(modifierKey);
-            if (keyCodes != null) keyCodes.ToList().ForEach(x => builder.AddKeyPress(x));
-            builder.AddKeyUp(modifierKey);
-
-            SendSimulatedInput(builder.ToArray());
+            ModifiedKeyStroke(new [] {modifierKey}, keyCodes);
         }
 
         /// <summary>
@@ -144,9 +153,9 @@ namespace WindowsInput
         public void ModifiedKeyStroke(IEnumerable<VirtualKeyCode> modifierKeyCodes, IEnumerable<VirtualKeyCode> keyCodes)
         {
             var builder = new InputBuilder();
-            if (modifierKeyCodes != null) modifierKeyCodes.ToList().ForEach(x => builder.AddKeyUp(x));
-            if (keyCodes != null) keyCodes.ToList().ForEach(x => builder.AddKeyPress(x));
-            if (modifierKeyCodes != null) modifierKeyCodes.Reverse().ToList().ForEach(x => builder.AddKeyUp(x));
+            ModifiersDown(builder, modifierKeyCodes);
+            KeysPress(builder, keyCodes);
+            ModifiersUp(builder, modifierKeyCodes);
 
             SendSimulatedInput(builder.ToArray());
         }

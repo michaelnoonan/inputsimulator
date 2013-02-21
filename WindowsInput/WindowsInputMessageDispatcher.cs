@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Linq;
 using System.Runtime.InteropServices;
 using WindowsInput.Native;
 
@@ -19,7 +18,7 @@ namespace WindowsInput
         /// </returns>
         public UInt32 DispatchInput(INPUT[] inputs)
         {
-            return NativeMethods.SendInput((UInt32)inputs.Count(), inputs.ToArray(), Marshal.SizeOf(typeof (INPUT)));
+            return NativeMethods.SendInput((UInt32)inputs.Length, inputs, Marshal.SizeOf(typeof (INPUT)));
         }
     }
 }
