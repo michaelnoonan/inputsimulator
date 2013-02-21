@@ -145,23 +145,40 @@ namespace WindowsInput
         {
             UInt16 scanCode = character;
 
-            var down = new INPUT();
-            down.Type = (UInt32)InputType.Keyboard;
-            down.Data.Keyboard = new KEYBDINPUT();
-            down.Data.Keyboard.KeyCode = 0;
-            down.Data.Keyboard.Scan = scanCode;
-            down.Data.Keyboard.Flags = (UInt32)KeyboardFlag.Unicode;
-            down.Data.Keyboard.Time = 0;
-            down.Data.Keyboard.ExtraInfo = IntPtr.Zero;
+            var down = new INPUT
+                           {
+                               Type = (UInt32) InputType.Keyboard,
+                               Data =
+                                   {
+                                       Keyboard =
+                                           new KEYBDINPUT
+                                               {
+                                                   KeyCode = 0,
+                                                   Scan = scanCode,
+                                                   Flags = (UInt32) KeyboardFlag.Unicode,
+                                                   Time = 0,
+                                                   ExtraInfo = IntPtr.Zero
+                                               }
+                                   }
+                           };
 
-            var up = new INPUT();
-            up.Type = (UInt32)InputType.Keyboard;
-            up.Data.Keyboard = new KEYBDINPUT();
-            up.Data.Keyboard.KeyCode = 0;
-            up.Data.Keyboard.Scan = scanCode;
-            up.Data.Keyboard.Flags = (UInt32)(KeyboardFlag.KeyUp | KeyboardFlag.Unicode);
-            up.Data.Keyboard.Time = 0;
-            up.Data.Keyboard.ExtraInfo = IntPtr.Zero;
+            var up = new INPUT
+                         {
+                             Type = (UInt32) InputType.Keyboard,
+                             Data =
+                                 {
+                                     Keyboard =
+                                         new KEYBDINPUT
+                                             {
+                                                 KeyCode = 0,
+                                                 Scan = scanCode,
+                                                 Flags =
+                                                     (UInt32) (KeyboardFlag.KeyUp | KeyboardFlag.Unicode),
+                                                 Time = 0,
+                                                 ExtraInfo = IntPtr.Zero
+                                             }
+                                 }
+                         };
 
             // Handle extended keys:
             // If the scan code is preceded by a prefix byte that has the value 0xE0 (224),
@@ -201,12 +218,9 @@ namespace WindowsInput
             return AddCharacters(characters.ToCharArray());
         }
 
-        #region Mouse
-
         public InputBuilder AddRelativeMouseMovement(int x, int y)
         {
-            var movement = new INPUT();
-            movement.Type = (UInt32)InputType.Mouse;
+            var movement = new INPUT {Type = (UInt32) InputType.Mouse};
             movement.Data.Mouse.Flags = (UInt32)MouseFlag.Move;
             movement.Data.Mouse.X = x;
             movement.Data.Mouse.Y = y;
@@ -218,8 +232,7 @@ namespace WindowsInput
 
         public InputBuilder AddAbsoluteMouseMovement(int absoluteX, int absoluteY)
         {
-            var movement = new INPUT();
-            movement.Type = (UInt32)InputType.Mouse;
+            var movement = new INPUT {Type = (UInt32) InputType.Mouse};
             movement.Data.Mouse.Flags = (UInt32)(MouseFlag.Move | MouseFlag.Absolute);
             movement.Data.Mouse.X = absoluteX;
             movement.Data.Mouse.Y = absoluteY;
@@ -231,8 +244,7 @@ namespace WindowsInput
 
         public InputBuilder AddAbsoluteMouseMovementOnVirtualDesktop(int absoluteX, int absoluteY)
         {
-            var movement = new INPUT();
-            movement.Type = (UInt32)InputType.Mouse;
+            var movement = new INPUT {Type = (UInt32) InputType.Mouse};
             movement.Data.Mouse.Flags = (UInt32)(MouseFlag.Move | MouseFlag.Absolute | MouseFlag.VirtualDesk);
             movement.Data.Mouse.X = absoluteX;
             movement.Data.Mouse.Y = absoluteY;
@@ -244,8 +256,7 @@ namespace WindowsInput
 
         public InputBuilder AddMouseButtonDown(MouseButton button)
         {
-            var buttonDown = new INPUT();
-            buttonDown.Type = (UInt32)InputType.Mouse;
+            var buttonDown = new INPUT {Type = (UInt32) InputType.Mouse};
             buttonDown.Data.Mouse.Flags = (UInt32)ToMouseButtonDownFlag(button);
 
             _inputList.Add(buttonDown);
@@ -255,8 +266,7 @@ namespace WindowsInput
 
         public InputBuilder AddMouseXButtonDown(int xButtonId)
         {
-            var buttonDown = new INPUT();
-            buttonDown.Type = (UInt32)InputType.Mouse;
+            var buttonDown = new INPUT {Type = (UInt32) InputType.Mouse};
             buttonDown.Data.Mouse.Flags = (UInt32)MouseFlag.XDown;
             buttonDown.Data.Mouse.MouseData = (UInt32)xButtonId;
             _inputList.Add(buttonDown);
@@ -266,8 +276,7 @@ namespace WindowsInput
 
         public InputBuilder AddMouseButtonUp(MouseButton button)
         {
-            var buttonUp = new INPUT();
-            buttonUp.Type = (UInt32)InputType.Mouse;
+            var buttonUp = new INPUT {Type = (UInt32) InputType.Mouse};
             buttonUp.Data.Mouse.Flags = (UInt32)ToMouseButtonUpFlag(button);
             _inputList.Add(buttonUp);
 
@@ -276,8 +285,7 @@ namespace WindowsInput
 
         public InputBuilder AddMouseXButtonUp(int xButtonId)
         {
-            var buttonUp = new INPUT();
-            buttonUp.Type = (UInt32)InputType.Mouse;
+            var buttonUp = new INPUT {Type = (UInt32) InputType.Mouse};
             buttonUp.Data.Mouse.Flags = (UInt32)MouseFlag.XUp;
             buttonUp.Data.Mouse.MouseData = (UInt32)xButtonId;
             _inputList.Add(buttonUp);
@@ -307,8 +315,7 @@ namespace WindowsInput
 
         public InputBuilder AddMouseVerticalWheelScroll(int scrollAmount)
         {
-            var scroll = new INPUT();
-            scroll.Type = (UInt32) InputType.Mouse;
+            var scroll = new INPUT {Type = (UInt32) InputType.Mouse};
             scroll.Data.Mouse.Flags = (UInt32) MouseFlag.VerticalWheel;
             scroll.Data.Mouse.MouseData = (UInt32) scrollAmount;
             
@@ -319,8 +326,7 @@ namespace WindowsInput
 
         public InputBuilder AddMouseHorizontalWheelScroll(int scrollAmount)
         {
-            var scroll = new INPUT();
-            scroll.Type = (UInt32) InputType.Mouse;
+            var scroll = new INPUT {Type = (UInt32) InputType.Mouse};
             scroll.Data.Mouse.Flags = (UInt32) MouseFlag.HorizontalWheel;
             scroll.Data.Mouse.MouseData = (UInt32) scrollAmount;
             
@@ -364,6 +370,5 @@ namespace WindowsInput
                     return MouseFlag.LeftUp;
             }
         }
-        #endregion
     }
 }
