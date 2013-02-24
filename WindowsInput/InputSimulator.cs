@@ -40,8 +40,8 @@ namespace WindowsInput
         /// </summary>
         public InputSimulator()
         {
-            _keyboardSimulator = new KeyboardSimulator();
-            _mouseSimulator = new MouseSimulator();
+            _keyboardSimulator = new KeyboardSimulator(this);
+            _mouseSimulator = new MouseSimulator(this);
             _inputDeviceState = new WindowsInputDeviceStateAdaptor();
         }
 
