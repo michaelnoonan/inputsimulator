@@ -12,7 +12,9 @@ namespace WindowsInput
         /// Dispatches the specified list of <see cref="INPUT"/> messages in their specified order.
         /// </summary>
         /// <param name="inputs">The list of <see cref="INPUT"/> messages to be dispatched.</param>
-        /// <returns>The number of <see cref="INPUT"/> messages that were successfully dispatched.</returns>
-        long DispatchInput(INPUT[] inputs);
+        /// <exception cref="ArgumentException">If the <paramref name="inputs"/> array is empty.</exception>
+        /// <exception cref="ArgumentNullException">If the <paramref name="inputs"/> array is null.</exception>
+        /// <exception cref="Exception">If the any of the commands in the <paramref name="inputs"/> array could not be sent successfully.</exception>
+        void DispatchInput(INPUT[] inputs);
     }
 }

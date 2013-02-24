@@ -1,5 +1,4 @@
 ﻿using NUnit.Framework;
-using System.Threading;
 using WindowsInput.Native;
 
 namespace WindowsInput.Tests

@@ -79,11 +79,9 @@ namespace WindowsInput
         /// Sends the list of <see cref="INPUT"/> messages using the <see cref="IInputMessageDispatcher"/> instance.
         /// </summary>
         /// <param name="inputList">The <see cref="System.Array"/> of <see cref="INPUT"/> messages to send.</param>
-        /// <returns>The number of successful messages that were sent.</returns>
-        private int SendSimulatedInput(INPUT[] inputList)
+        private void SendSimulatedInput(INPUT[] inputList)
         {
-            if (inputList == null || inputList.Length == 0) return -1;
-            return (int)_messageDispatcher.DispatchInput(inputList);
+            _messageDispatcher.DispatchInput(inputList);
         }
 
         /// <summary>
