@@ -1,72 +1,93 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.IO;
+using System;
 using System.Net;
-using System.Reflection;
-using System.Runtime.InteropServices;
-using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
-using System.Xml.Linq;
-using ApprovalTests;
-using ApprovalTests.Core;
-using ApprovalTests.Namers;
-using ApprovalTests.Reporters;
 using HtmlAgilityPack;
 using NUnit.Framework;
-using WindowsInput.Native;
-using WindowsInput.Tests.UnicodeTestSurface;
-using Approvals = ApprovalTests.Approvals;
 
-namespace WindowsInput.Tests
+namespace WindowsInput.Tests.UnicodeText
 {
-    public class UnicodeRange
-    {
-        public string Name { get; set; }
-        public int Low { get; set; }
-        public int High { get; set; }
-
-        public UnicodeRange(string name, int low, int high)
-        {
-            Name = name;
-            Low = low;
-            High = high;
-        }
-    }
-
-    public class CustomTestNamer : UnitTestFrameworkNamer, IApprovalNamer
-    {
-        private readonly string _name;
-
-        public CustomTestNamer(string name)
-        {
-            _name = name;
-        }
-
-        string IApprovalNamer.Name
-        {
-            get { return _name; }
-        }
-    }
-
     [TestFixture]
-    //[UseReporter(typeof(DiffReporter))]
-    public class TextTests
+    public class UnicodeTextTests
     {
+        private TestCaseData[] _unicodeTestCases;
         public TestCaseData[] UnicodeTestCases
         {
             get
             {
-                var ranges = GetUnicodeRanges();
-                var cases = Array.ConvertAll(ranges, BuildTestCase);
-                return cases;
+                if (_unicodeTestCases == null)
+                {
+                    var ranges = GetUnicodeRanges();
+                    _unicodeTestCases = Array.ConvertAll(ranges, BuildTestCase);
+                }
+                return _unicodeTestCases;
             }
         }
 
         private TestCaseData BuildTestCase(UnicodeRange input)
         {
             return new TestCaseData(input).SetName(input.Name);
+        }
+
+        [Test]
+        [TestCaseSource("UnicodeTestCases")]
+        public void TestUnicodeRanges(UnicodeRange range)
+        {
+            // ReSharper disable AccessToDisposedClosure
+            using (var form = new UnicodeTestForm
+                                  {
+                                      Expected = range.Characters
+                                  })
+            {
+                var ready = false;
+                var formTask = Task.Factory.StartNew(
+                    () =>
+                        {
+                            form.Shown += (x, y) => ready = true;
+                            form.ShowDialog();
+                        }, TaskCreationOptions.LongRunning);
+
+                var simTask = Task.Factory.StartNew(
+                    () =>
+                        {
+                            while (!ready)
+                            {
+                                Thread.Sleep(250);
+                            }
+                            var sim = new InputSimulator();
+                            sim.Keyboard.TextEntry(range.Characters);
+                            while (form.Recieved != form.Expected)
+                            {
+                                Thread.Sleep(500);
+                            }
+                            form.Close();
+                        }, TaskCreationOptions.LongRunning);
+
+                Task.WaitAll(new[] {formTask, simTask}, TimeSpan.FromSeconds(60));
+                Assert.That(form.Recieved, Is.EqualTo(form.Expected));
+            }
+            // ReSharper restore AccessToDisposedClosure
+        }
+
+        [Test]
+        [Explicit]
+        public void GetCharacterRanges()
+        {
+            using (var client = new WebClient())
+            {
+                var html = client.DownloadString("http://jrgraphix.net/r/Unicode/");
+                var htmlDoc = new HtmlDocument();
+                htmlDoc.LoadHtml(html);
+                foreach (var link in htmlDoc.DocumentNode.SelectNodes("//a[@href]"))
+                {
+                    var a = link.GetAttributeValue("href", "unknown");
+                    if (a.Contains("Unicode"))
+                    {
+                        a = "0x" + a.Replace("/r/Unicode/", "").Replace("-", ", 0x") + "),";
+                        Console.WriteLine("new UnicodeRange(\"" + link.InnerText + "\", " + a);
+                    }
+                }
+            }
         }
 
         public UnicodeRange[] GetUnicodeRanges()
@@ -196,66 +217,6 @@ namespace WindowsInput.Tests
                            new UnicodeRange("Box Drawing", 0x2500, 0x257F),
                            new UnicodeRange("Tags", 0xE0000, 0xE007F)
                        };
-        }
-
-        [Test]
-        [TestCaseSource("UnicodeTestCases")]
-        public void TestUnicodeRanges(UnicodeRange range)
-        {
-            var tempFile = Path.GetTempFileName();
-            using (
-                var process =
-                    Process.Start(
-                        @"C:\dev\InputSimulator\WindowsInput.Tests.UnicodeTestSurface\bin\Debug\WindowsInput.Tests.UnicodeTestSurface.exe",
-                        tempFile))
-            {
-                var sim = new InputSimulator();
-                sim.Keyboard.Sleep(3000).SimulateUnicodeRange(range).Sleep(3000);
-                process.CloseMainWindow();
-                Thread.Sleep(3000);
-                var text = File.ReadAllText(tempFile, Encoding.UTF32);
-                Approvals.Verify(new ApprovalTextWriter(text), new CustomTestNamer(range.Name), Approvals.GetReporter());
-            }
-        }
-
-        [Test]
-        [Explicit]
-        public void GetCharacterRanges()
-        {
-            using (var client = new WebClient())
-            {
-                var html = client.DownloadString("http://jrgraphix.net/r/Unicode/");
-                var htmlDoc = new HtmlDocument();
-                htmlDoc.LoadHtml(html);
-                foreach (var link in htmlDoc.DocumentNode.SelectNodes("//a[@href]"))
-                {
-                    var a = link.GetAttributeValue("href", "unknown");
-                    if (a.Contains("Unicode"))
-                    {
-                        a = "0x" + a.Replace("/r/Unicode/", "").Replace("-", ", 0x") + "));";
-                        Console.WriteLine("ranges.Add(new UnicodeRange(\"" + link.InnerText + "\", " + a);
-                    }
-
-                }
-
-            }
-        }
-    }
-
-    public static class KeyboardSimulatorExtensions
-    {
-        public static IKeyboardSimulator SimulateUnicodeRange(this IKeyboardSimulator sim, UnicodeRange range)
-        {
-            var i = range.Low;
-            var sb = new StringBuilder(range.High - range.Low + 50);
-            while (i <= range.High)
-            {
-                sb.Append(char.ConvertFromUtf32(i));
-                i++;
-            }
-
-            sim.TextEntry(sb.ToString());
-            return sim;
         }
     }
 }
