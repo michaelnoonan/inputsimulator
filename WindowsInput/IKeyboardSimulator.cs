@@ -78,6 +78,12 @@ namespace WindowsInput
         IKeyboardSimulator TextEntry(string text);
 
         /// <summary>
+        /// Simulates a single character text entry via the keyboard.
+        /// </summary>
+        /// <param name="character">The unicode character to be simulated.</param>
+        IKeyboardSimulator TextEntry(char character);
+
+        /// <summary>
         /// Sleeps the executing thread to create a pause between simulated inputs.
         /// </summary>
         /// <param name="millsecondsTimeout">The number of milliseconds to wait.</param>

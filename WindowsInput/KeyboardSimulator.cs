@@ -195,6 +195,17 @@ namespace WindowsInput
         }
 
         /// <summary>
+        /// Simulates a single character text entry via the keyboard.
+        /// </summary>
+        /// <param name="character">The unicode character to be simulated.</param>
+        public IKeyboardSimulator TextEntry(char character)
+        {
+            var inputList = new InputBuilder().AddCharacter(character).ToArray();
+            SendSimulatedInput(inputList);
+            return this;
+        }
+
+        /// <summary>
         /// Sleeps the executing thread to create a pause between simulated inputs.
         /// </summary>
         /// <param name="millsecondsTimeout">The number of milliseconds to wait.</param>
