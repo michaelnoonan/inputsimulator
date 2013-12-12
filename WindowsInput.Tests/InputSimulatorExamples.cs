@@ -7,6 +7,7 @@ namespace WindowsInput.Tests
     public class InputSimulatorExamples
     {
         [Test]
+        [Explicit]
         public void OpenWindowsExplorer()
         {
             var sim = new InputSimulator();
@@ -14,6 +15,7 @@ namespace WindowsInput.Tests
         }
 
         [Test]
+        [Explicit]
         public void SayHello()
         {
             var sim = new InputSimulator();
@@ -45,6 +47,7 @@ namespace WindowsInput.Tests
         }
 
         [Test]
+        [Explicit]
         public void AnotherTest()
         {
             var sim = new InputSimulator();
@@ -64,6 +67,7 @@ namespace WindowsInput.Tests
         }
 
         [Test]
+        [Explicit]
         public void TestMouseMoveTo()
         {
             var sim = new InputSimulator();

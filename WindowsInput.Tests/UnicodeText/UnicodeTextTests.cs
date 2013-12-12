@@ -30,6 +30,7 @@ namespace WindowsInput.Tests.UnicodeText
         }
 
         [Test]
+        [Explicit]
         [TestCaseSource("UnicodeTestCases")]
         public void TestUnicodeRanges(UnicodeRange range)
         {
