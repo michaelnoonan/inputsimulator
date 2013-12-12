@@ -78,6 +78,7 @@
     <Compile Include="Native\XButton.cs" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="WindowsInput.nuspec" />
     <None Include="WindowsInput.snk" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
