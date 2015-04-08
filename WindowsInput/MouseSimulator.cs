@@ -142,7 +142,7 @@ namespace WindowsInput
         }
 
         /// <summary>
-        /// Simulates a mouse Middle button down gesture.
+        /// Simulates a mouse middle button down gesture.
         /// </summary>
         public IMouseSimulator MiddleButtonDown()
         {
@@ -152,7 +152,7 @@ namespace WindowsInput
         }
 
         /// <summary>
-        /// Simulates a mouse Middle button up gesture.
+        /// Simulates a mouse middle button up gesture.
         /// </summary>
         public IMouseSimulator MiddleButtonUp()
         {
@@ -162,7 +162,7 @@ namespace WindowsInput
         }
 
         /// <summary>
-        /// Simulates a mouse Middle-click gesture.
+        /// Simulates a mouse middle-click gesture.
         /// </summary>
         public IMouseSimulator MiddleButtonClick()
         {
@@ -172,7 +172,7 @@ namespace WindowsInput
         }
 
         /// <summary>
-        /// Simulates a mouse Middle button double-click gesture.
+        /// Simulates a mouse middle button double-click gesture.
         /// </summary>
         public IMouseSimulator MiddleButtonDoubleClick()
         {
