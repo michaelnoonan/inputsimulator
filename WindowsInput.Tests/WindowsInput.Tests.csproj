@@ -36,10 +36,11 @@
     <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup>
-    <SignAssembly>true</SignAssembly>
+    <SignAssembly>false</SignAssembly>
   </PropertyGroup>
   <PropertyGroup>
-    <AssemblyOriginatorKeyFile>WindowsInput.Tests.snk</AssemblyOriginatorKeyFile>
+    <AssemblyOriginatorKeyFile>
+    </AssemblyOriginatorKeyFile>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="HtmlAgilityPack">
@@ -71,19 +72,21 @@
     <Compile Include="UnicodeText\UnicodeTextTests.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\WindowsInput\WindowsInput.csproj">
-      <Project>{3549CD6F-80F8-450F-B99E-CF0A736B1F2A}</Project>
-      <Name>WindowsInput</Name>
-    </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
     <None Include="packages.config" />
-    <None Include="WindowsInput.Tests.snk" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="UnicodeText\UnicodeTestForm.resx">
       <DependentUpon>UnicodeTestForm.cs</DependentUpon>
     </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <Service Include="{82A7F48D-3B50-4B1E-B82E-3ADA8210C358}" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\WindowsInput\WindowsInput.csproj">
+      <Project>{3549cd6f-80f8-450f-b99e-cf0a736b1f2a}</Project>
+      <Name>WindowsInput</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="$(SolutionDir)\.nuget\nuget.targets" />
