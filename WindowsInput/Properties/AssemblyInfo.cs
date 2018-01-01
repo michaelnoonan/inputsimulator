@@ -6,16 +6,16 @@ using System.Runtime.InteropServices;
 // General Information about an assembly is controlled through the following 
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("WindowsInput")]
-[assembly: AssemblyDescription("Provides a useful wrapper around the User32 SendInput and related native Windows functions for simulating Input Devices in Windows including Keyboard and Mouse.")]
+[assembly: AssemblyTitle("WindowsInputPlus")]
+[assembly: AssemblyDescription("Fork of the original Windows Input Simulator with scan code support for increased compatibility.")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("michaelnoonan")]
-[assembly: AssemblyProduct("WindowsInput")]
-[assembly: AssemblyCopyright("Copyright © michaelnoonan 2010")]
+[assembly: AssemblyCompany("Theodoros Chatzigiannakis")]
+[assembly: AssemblyProduct("WindowsInputPlus")]
+[assembly: AssemblyCopyright("Copyright © michaelnoonan 2010, Copyright © Theodoros Chatzigiannakis 2018")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 [assembly: CLSCompliant(true)]
-[assembly: InternalsVisibleTo("WindowsInput.Tests, PublicKey=0024000004800000940000000602000000240000525341310004000001000100737a78808b105748ff1251c1eb68752c2eb02dea580cade31d04fbc4081d7f420c639de2f3081461f734d48499c50133adb9dab02d828031cdec7d2941652233aefadf961658f948c13d43da9860d76ded6e959eebec0ddae03cc67dabf1aa83973602690e228c5b2d9434e62760d325d4c46a1fdf71971bb7a22f0de55b7bf0")]
+[assembly: InternalsVisibleTo("WindowsInput.Tests")]
 
 // Setting ComVisible to false makes the types in this assembly not visible 
 // to COM components.  If you need to access a type in this assembly from 
@@ -23,7 +23,7 @@ using System.Runtime.InteropServices;
 [assembly: ComVisible(false)]
 
 // The following GUID is for the ID of the typelib if this project is exposed to COM
-[assembly: Guid("25871eb0-27d6-42da-a3fe-cb60eb01f15a")]
+[assembly: Guid("a04b3cc4-a36c-4597-b0a9-d6f16dd6dcf6")]
 
 // Version information for an assembly consists of the following four values:
 //
