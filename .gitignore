@@ -63,3 +63,4 @@ packages/
 #Test files
 *.testsettings
 .vs/
+*.nupkg
