@@ -8,7 +8,7 @@
     <owners>TChatzigiannakis</owners>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <licenseUrl>https://opensource.org/licenses/MS-PL</licenseUrl>
-    <projectUrl>https://github.com/TChatzigiannakis/inputsimulator</projectUrl>
+    <projectUrl>https://github.com/TChatzigiannakis/InputSimulatorPlus</projectUrl>
     <description>This package is a fork of the Windows Input Simulator package. If you have encountered applications that do not receive input from the original Windows Input Simulator, try replacing it with this package instead.</description>
     <releaseNotes></releaseNotes>
     <copyright>Copyright 2009-2018</copyright>
