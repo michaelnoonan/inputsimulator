@@ -1,7 +1,7 @@
 # Windows Input Simulator Plus
-This library is a fork of Michael Noonan's *Windows Input Simulator*, which is a C# wrapper of the SendInput functionality in Windows. 
+This library is a fork of Michael Noonan's *Windows Input Simulator* (a C# wrapper around the `SendInput` functionality of Windows) and can be used as a replacement of the original library without any source code changes. 
 
-The fork provides support for some applications that the original library doesn't work with. It can be used in place of the original library without any source code changes.
+The fork supports scan codes, making it compatible with many applications that the original library did not support. 
 
 ## NuGet
 Install-Package InputSimulatorPlus
@@ -39,20 +39,20 @@ public void ShoutHello()
 ```csharp
 public void SimulateSomeModifiedKeystrokes()
 {
-  // CTRL-C (effectively a copy command in many situations)
-  InputSimulator.SimulateModifiedKeyStroke(VirtualKeyCode.CONTROL, VirtualKeyCode.VK_C);
+    // CTRL-C (effectively a copy command in many situations)
+    InputSimulator.SimulateModifiedKeyStroke(VirtualKeyCode.CONTROL, VirtualKeyCode.VK_C);
 
-  // You can simulate chords with multiple modifiers
-  // For example CTRL-K-C whic is simulated as
-  // CTRL-down, K, C, CTRL-up
-  InputSimulator.SimulateModifiedKeyStroke(VirtualKeyCode.CONTROL, new [] {VirtualKeyCode.VK_K, VirtualKeyCode.VK_C});
+    // You can simulate chords with multiple modifiers
+    // For example CTRL-K-C whic is simulated as
+    // CTRL-down, K, C, CTRL-up
+    InputSimulator.SimulateModifiedKeyStroke(VirtualKeyCode.CONTROL, new [] {VirtualKeyCode.VK_K, VirtualKeyCode.VK_C});
 
-  // You can simulate complex chords with multiple modifiers and key presses
-  // For example CTRL-ALT-SHIFT-ESC-K which is simulated as
-  // CTRL-down, ALT-down, SHIFT-down, press ESC, press K, SHIFT-up, ALT-up, CTRL-up
-  InputSimulator.SimulateModifiedKeyStroke(
-    new[] { VirtualKeyCode.CONTROL, VirtualKeyCode.MENU, VirtualKeyCode.SHIFT },
-    new[] { VirtualKeyCode.ESCAPE, VirtualKeyCode.VK_K });
+    // You can simulate complex chords with multiple modifiers and key presses
+    // For example CTRL-ALT-SHIFT-ESC-K which is simulated as
+    // CTRL-down, ALT-down, SHIFT-down, press ESC, press K, SHIFT-up, ALT-up, CTRL-up
+    InputSimulator.SimulateModifiedKeyStroke(
+        new[] { VirtualKeyCode.CONTROL, VirtualKeyCode.MENU, VirtualKeyCode.SHIFT },
+        new[] { VirtualKeyCode.ESCAPE, VirtualKeyCode.VK_K });
 }
 ```
 
@@ -60,7 +60,7 @@ public void SimulateSomeModifiedKeystrokes()
 ```csharp
 public void SayHello()
 {
-  InputSimulator.SimulateTextEntry("Say hello!");
+    InputSimulator.SimulateTextEntry("Say hello!");
 }
 ```
 
@@ -68,11 +68,11 @@ public void SayHello()
 ```csharp
 public void GetKeyStatus()
 {
-  // Determines if the shift key is currently down
-  var isShiftKeyDown = InputSimulator.IsKeyDown(VirtualKeyCode.SHIFT);
+    // Determines if the shift key is currently down
+    var isShiftKeyDown = InputSimulator.IsKeyDown(VirtualKeyCode.SHIFT);
 
-  // Determines if the caps lock key is currently in effect (toggled on)
-  var isCapsLockOn = InputSimulator.IsTogglingKeyInEffect(VirtualKeyCode.CAPITAL);
+    // Determines if the caps lock key is currently in effect (toggled on)
+    var isCapsLockOn = InputSimulator.IsTogglingKeyInEffect(VirtualKeyCode.CAPITAL);
 }
 ```
 
