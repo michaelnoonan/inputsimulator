@@ -271,7 +271,16 @@ namespace WindowsInput
         /// <param name="scrollAmountInClicks">The amount to scroll in clicks. A positive value indicates that the wheel was rotated forward, away from the user; a negative value indicates that the wheel was rotated backward, toward the user.</param>
         public IMouseSimulator VerticalScroll(int scrollAmountInClicks)
         {
-            var inputList = new InputBuilder().AddMouseVerticalWheelScroll(scrollAmountInClicks * MouseWheelClickSize).ToArray();
+            return VerticalScrollAbsolute(scrollAmountInClicks * MouseWheelClickSize);
+        }
+
+        /// <summary>
+        /// Simulates mouse vertical wheel scroll gesture.
+        /// </summary>
+        /// <param name="scrollAmount">The absolute amount to scroll. A positive value indicates that the wheel was rotated forward, away from the user; a negative value indicates that the wheel was rotated backward, toward the user.</param>
+        public IMouseSimulator VerticalScrollAbsolute(int scrollAmount)
+        {
+            var inputList = new InputBuilder().AddMouseVerticalWheelScroll(scrollAmount).ToArray();
             SendSimulatedInput(inputList);
             return this;
         }
@@ -282,7 +291,16 @@ namespace WindowsInput
         /// <param name="scrollAmountInClicks">The amount to scroll in clicks. A positive value indicates that the wheel was rotated to the right; a negative value indicates that the wheel was rotated to the left.</param>
         public IMouseSimulator HorizontalScroll(int scrollAmountInClicks)
         {
-            var inputList = new InputBuilder().AddMouseHorizontalWheelScroll(scrollAmountInClicks * MouseWheelClickSize).ToArray();
+            return HorizontalScrollAbsolute(scrollAmountInClicks * MouseWheelClickSize);
+        }
+
+        /// <summary>
+        /// Simulates a mouse horizontal wheel scroll gesture. Supported by Windows Vista and later.
+        /// </summary>
+        /// <param name="scrollAmount">The absolute amount to scroll. A positive value indicates that the wheel was rotated to the right; a negative value indicates that the wheel was rotated to the left.</param>
+        public IMouseSimulator HorizontalScrollAbsolute(int scrollAmount)
+        {
+            var inputList = new InputBuilder().AddMouseHorizontalWheelScroll(scrollAmount).ToArray();
             SendSimulatedInput(inputList);
             return this;
         }
