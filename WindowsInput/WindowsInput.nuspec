@@ -2,7 +2,7 @@
 <package xmlns="http://schemas.microsoft.com/packaging/2011/08/nuspec.xsd">
   <metadata>
     <id>InputSimulatorPlus</id>
-    <version>1.0.4.0</version>
+    <version>1.0.5.0</version>
     <title>Windows Input Simulator Plus</title>
     <authors>Michael Noonan, Theodoros Chatzigiannakis</authors>
     <owners>TChatzigiannakis</owners>

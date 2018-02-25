@@ -55,6 +55,26 @@ namespace WindowsInput
         IMouseSimulator LeftButtonDoubleClick();
 
         /// <summary>
+        /// Simulates a mouse middle button down gesture.
+        /// </summary>
+        IMouseSimulator MiddleButtonDown();
+
+        /// <summary>
+        /// Simulates a mouse middle button up gesture.
+        /// </summary>
+        IMouseSimulator MiddleButtonUp();
+
+        /// <summary>
+        /// Simulates a mouse middle button click gesture.
+        /// </summary>
+        IMouseSimulator MiddleButtonClick();
+
+        /// <summary>
+        /// Simulates a mouse middle button double-click gesture.
+        /// </summary>
+        IMouseSimulator MiddleButtonDoubleClick();
+
+        /// <summary>
         /// Simulates a mouse right button down gesture.
         /// </summary>
         IMouseSimulator RightButtonDown();
