@@ -15,7 +15,7 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 [assembly: CLSCompliant(true)]
-[assembly: InternalsVisibleTo("WindowsInput.Tests")]
+[assembly: InternalsVisibleTo("WindowsInput.Tests,PublicKey=00240000048000009400000006020000002400005253413100040000010001004d0fe1ddb5b46f75b2d00740763ead8fd41e4212ca347163134409b7e9e99c80f3eef5772166a965ecd31bea7c7d68c2356f49db0ebec721cf1bad6f71f63092d90e22eccb84c374b0ae91553c6e74a8dbfa36f34520993ec0a1780df0852e698a803dd155b83a070f21057417dbd7128e70b21ad5c5626b51a4f18dd70351b8")]
 
 // Setting ComVisible to false makes the types in this assembly not visible 
 // to COM components.  If you need to access a type in this assembly from 
@@ -35,4 +35,4 @@ using System.Runtime.InteropServices;
 // You can specify all the values or you can default the Build and Revision Numbers 
 // by using the '*' as shown below:
 // [assembly: AssemblyVersion("1.0.*")]
-[assembly: AssemblyVersion("1.0.5.0")]
+[assembly: AssemblyVersion("1.0.6.0")]
