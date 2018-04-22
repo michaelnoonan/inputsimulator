@@ -9,7 +9,10 @@ namespace WindowsInput
     /// </summary>
     public class MouseSimulator : IMouseSimulator
     {
-        private const int MouseWheelClickSize = 120;
+        /// <summary>
+        /// Gets or sets the amount of mouse wheel scrolling per click. The default value for this property is 120 and different values may cause some applications to interpret the scrolling differently than expected.
+        /// </summary>
+        public int MouseWheelClickSize { get; set; } = 120;
 
         private readonly IInputSimulator _inputSimulator;
 

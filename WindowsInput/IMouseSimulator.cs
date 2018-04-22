@@ -8,6 +8,11 @@ namespace WindowsInput
     public interface IMouseSimulator
     {
         /// <summary>
+        /// Gets or sets the amount of mouse wheel scrolling per click. The default value for this property is 120 and different values may cause some applications to interpret the scrolling differently than expected.
+        /// </summary>
+        int MouseWheelClickSize { get; set; }
+
+        /// <summary>
         /// Gets the <see cref="IKeyboardSimulator"/> instance for simulating Keyboard input.
         /// </summary>
         /// <value>The <see cref="IKeyboardSimulator"/> instance.</value>
