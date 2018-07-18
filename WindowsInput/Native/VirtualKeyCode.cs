@@ -936,4 +936,19 @@
         /// </summary>
         OEM_CLEAR = 0xFE,
     }
+
+    public static class VKExtend
+    {
+        /// <summary>
+        /// Returns the equivalent virtualkey for an input character
+        /// </summary>
+        /// <param name="InputChar">Character to input</param>
+        /// <returns></returns>
+        public static VirtualKeyCode FromChar(this VirtualKeyCode VK, char InputChar)
+        {
+            InputChar = Convert.ToChar(InputChar.ToString().ToUpper());
+            int code = (byte)InputChar;
+            return (VirtualKeyCode)code;
+        }
+    }
 }
