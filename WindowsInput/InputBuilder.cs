@@ -81,7 +81,7 @@ namespace WindowsInput
         public static bool IsExtendedKey(VirtualKeyCode keyCode)
         {
             if (keyCode == VirtualKeyCode.MENU ||
-                keyCode == VirtualKeyCode.LMENU ||
+                //keyCode == VirtualKeyCode.LMENU ||
                 keyCode == VirtualKeyCode.RMENU ||
                 keyCode == VirtualKeyCode.CONTROL ||
                 keyCode == VirtualKeyCode.RCONTROL ||
