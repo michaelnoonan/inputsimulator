@@ -125,7 +125,7 @@ namespace WindowsInput
                                     new KEYBDINPUT
                                         {
                                             KeyCode = (UInt16) keyCode,
-                                            Scan = 0,
+                                            Scan = (UInt16)(NativeMethods.MapVirtualKey((UInt32)keyCode, 0) & 0xFFU),
                                             Flags = IsExtendedKey(keyCode) ? (UInt32) KeyboardFlag.ExtendedKey : 0,
                                             Time = 0,
                                             ExtraInfo = IntPtr.Zero
@@ -154,7 +154,7 @@ namespace WindowsInput
                                     new KEYBDINPUT
                                         {
                                             KeyCode = (UInt16) keyCode,
-                                            Scan = 0,
+                                            Scan = (UInt16)(NativeMethods.MapVirtualKey((UInt32)keyCode, 0) & 0xFFU),
                                             Flags = (UInt32) (IsExtendedKey(keyCode)
                                                                   ? KeyboardFlag.KeyUp | KeyboardFlag.ExtendedKey
                                                                   : KeyboardFlag.KeyUp),

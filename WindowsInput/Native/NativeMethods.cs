@@ -97,5 +97,14 @@ namespace WindowsInput.Native
         /// <remarks>To set a thread's extra message information, use the SetMessageExtraInfo function. </remarks>
         [DllImport("user32.dll")]
         public static extern IntPtr GetMessageExtraInfo();
+
+        /// <summary>
+        /// Used to find the keyboard input scan code for single key input. Some applications do not receive the input when scan is not set.
+        /// </summary>
+        /// <param name="uCode"></param>
+        /// <param name="uMapType"></param>
+        /// <returns></returns>
+        [DllImport("user32.dll")]
+        public static extern UInt32 MapVirtualKey(UInt32 uCode, UInt32 uMapType);
     }
 }
