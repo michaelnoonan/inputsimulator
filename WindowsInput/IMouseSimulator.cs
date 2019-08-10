@@ -55,6 +55,26 @@ namespace WindowsInput
         IMouseSimulator LeftButtonDoubleClick();
 
         /// <summary>
+        /// Simulates a mouse middle button down gesture.
+        /// </summary>
+        IMouseSimulator MiddleButtonDown();
+
+        /// <summary>
+        /// Simulates a mouse middle button up gesture.
+        /// </summary>
+        IMouseSimulator MiddleButtonUp();
+
+        /// <summary>
+        /// Simulates a mouse middle button click gesture.
+        /// </summary>
+        IMouseSimulator MiddleButtonClick();
+
+        /// <summary>
+        /// Simulates a mouse middle button double-click gesture.
+        /// </summary>
+        IMouseSimulator MiddleButtonDoubleClick();
+
+        /// <summary>
         /// Simulates a mouse right button down gesture.
         /// </summary>
         IMouseSimulator RightButtonDown();
@@ -105,10 +125,22 @@ namespace WindowsInput
         IMouseSimulator VerticalScroll(int scrollAmountInClicks);
 
         /// <summary>
+        /// Simulates mouse vertical wheel scroll gesture.
+        /// </summary>
+        /// <param name="scrollAmount">The absolute amount to scroll. A positive value indicates that the wheel was rotated forward, away from the user; a negative value indicates that the wheel was rotated backward, toward the user.</param>
+        IMouseSimulator VerticalScrollAbsolute(int scrollAmount);
+
+        /// <summary>
         /// Simulates a mouse horizontal wheel scroll gesture. Supported by Windows Vista and later.
         /// </summary>
         /// <param name="scrollAmountInClicks">The amount to scroll in clicks. A positive value indicates that the wheel was rotated to the right; a negative value indicates that the wheel was rotated to the left.</param>
         IMouseSimulator HorizontalScroll(int scrollAmountInClicks);
+
+        /// <summary>
+        /// Simulates a mouse horizontal wheel scroll gesture. Supported by Windows Vista and later.
+        /// </summary>
+        /// <param name="scrollAmount">The absolute amount to scroll. A positive value indicates that the wheel was rotated to the right; a negative value indicates that the wheel was rotated to the left.</param>
+        IMouseSimulator HorizontalScrollAbsolute(int scrollAmount);
 
         /// <summary>
         /// Sleeps the executing thread to create a pause between simulated inputs.
