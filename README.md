@@ -8,6 +8,10 @@ NuGet
 ------
 Install-Package InputSimulator
 
+Guide
+-----
+[KeyCode Enum Guide](/Guide/Enum%20Guide.md)
+
 Examples
 ==========
 
