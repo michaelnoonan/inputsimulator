@@ -100,7 +100,7 @@ namespace WindowsInput.Tests
 
             // get grab position in the title bar.
             int x = bounds.Left + (bounds.Width / 2);
-            int y = bounds.Top + 5;
+            int y = bounds.Top + 10;
 
             sim.Mouse
                .MoveMouseTo(x, y)
