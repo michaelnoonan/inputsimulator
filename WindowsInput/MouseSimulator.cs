@@ -10,7 +10,7 @@ namespace WindowsInput
     public class MouseSimulator : IMouseSimulator
     {
         private const int MouseWheelClickSize = 120;
-
+        private MouseButton mouseDown;
         private readonly IInputSimulator _inputSimulator;
 
         /// <summary>
@@ -72,7 +72,7 @@ namespace WindowsInput
         /// <param name="pixelDeltaY">The distance in pixels to move the mouse vertically.</param>
         public IMouseSimulator MoveMouseBy(int pixelDeltaX, int pixelDeltaY)
         {
-            var inputList = new InputBuilder().AddRelativeMouseMovement(pixelDeltaX, pixelDeltaY).ToArray();
+            var inputList = new InputBuilder().AddRelativeMouseMovement(pixelDeltaX, pixelDeltaY, this.mouseDown).ToArray();
             SendSimulatedInput(inputList);
             return this;
         }
@@ -84,7 +84,7 @@ namespace WindowsInput
         /// <param name="absoluteY">The destination's absolute Y-coordinate on the primary display device where 0 is the top of the display device and 65535 is the bottom of the display device.</param>
         public IMouseSimulator MoveMouseTo(double absoluteX, double absoluteY)
         {
-            var inputList = new InputBuilder().AddAbsoluteMouseMovement((int)Math.Truncate(absoluteX), (int)Math.Truncate(absoluteY)).ToArray();
+            var inputList = new InputBuilder().AddAbsoluteMouseMovement((int)Math.Truncate(absoluteX), (int)Math.Truncate(absoluteY), this.mouseDown).ToArray();
             SendSimulatedInput(inputList);
             return this;
         }
@@ -96,7 +96,7 @@ namespace WindowsInput
         /// <param name="absoluteY">The destination's absolute Y-coordinate on the virtual desktop where 0 is the top of the virtual desktop and 65535 is the bottom of the virtual desktop.</param>
         public IMouseSimulator MoveMouseToPositionOnVirtualDesktop(double absoluteX, double absoluteY)
         {
-            var inputList = new InputBuilder().AddAbsoluteMouseMovementOnVirtualDesktop((int)Math.Truncate(absoluteX), (int)Math.Truncate(absoluteY)).ToArray();
+            var inputList = new InputBuilder().AddAbsoluteMouseMovementOnVirtualDesktop((int)Math.Truncate(absoluteX), (int)Math.Truncate(absoluteY), this.mouseDown).ToArray();
             SendSimulatedInput(inputList);
             return this;
         }
@@ -108,6 +108,7 @@ namespace WindowsInput
         {
             var inputList = new InputBuilder().AddMouseButtonDown(MouseButton.LeftButton).ToArray();
             SendSimulatedInput(inputList);
+            this.mouseDown = MouseButton.LeftButton;
             return this;
         }
 
@@ -118,6 +119,7 @@ namespace WindowsInput
         {
             var inputList = new InputBuilder().AddMouseButtonUp(MouseButton.LeftButton).ToArray();
             SendSimulatedInput(inputList);
+            this.mouseDown = MouseButton.None;
             return this;
         }
 
@@ -128,6 +130,7 @@ namespace WindowsInput
         {
             var inputList = new InputBuilder().AddMouseButtonClick(MouseButton.LeftButton).ToArray();
             SendSimulatedInput(inputList);
+            this.mouseDown = MouseButton.None;
             return this;
         }
 
@@ -138,6 +141,52 @@ namespace WindowsInput
         {
             var inputList = new InputBuilder().AddMouseButtonDoubleClick(MouseButton.LeftButton).ToArray();
             SendSimulatedInput(inputList);
+            this.mouseDown = MouseButton.None;
+            return this;
+        }
+
+
+        /// <summary>
+        /// Simulates a mouse middle button down gesture.
+        /// </summary>
+        public IMouseSimulator MiddleButtonDown()
+        {
+            var inputList = new InputBuilder().AddMouseButtonDown(MouseButton.MiddleButton).ToArray();
+            SendSimulatedInput(inputList);
+            this.mouseDown = MouseButton.MiddleButton;
+            return this;
+        }
+
+        /// <summary>
+        /// Simulates a mouse middle button up gesture.
+        /// </summary>
+        public IMouseSimulator MiddleButtonUp()
+        {
+            var inputList = new InputBuilder().AddMouseButtonUp(MouseButton.MiddleButton).ToArray();
+            SendSimulatedInput(inputList);
+            this.mouseDown = MouseButton.None;
+            return this;
+        }
+
+        /// <summary>
+        /// Simulates a mouse middle-click gesture.
+        /// </summary>
+        public IMouseSimulator MiddleButtonClick()
+        {
+            var inputList = new InputBuilder().AddMouseButtonClick(MouseButton.MiddleButton).ToArray();
+            SendSimulatedInput(inputList);
+            this.mouseDown = MouseButton.None;
+            return this;
+        }
+
+        /// <summary>
+        /// Simulates a mouse middle button double-click gesture.
+        /// </summary>
+        public IMouseSimulator MiddleButtonDoubleClick()
+        {
+            var inputList = new InputBuilder().AddMouseButtonDoubleClick(MouseButton.MiddleButton).ToArray();
+            SendSimulatedInput(inputList);
+            this.mouseDown = MouseButton.None;
             return this;
         }
 
@@ -148,6 +197,7 @@ namespace WindowsInput
         {
             var inputList = new InputBuilder().AddMouseButtonDown(MouseButton.RightButton).ToArray();
             SendSimulatedInput(inputList);
+            this.mouseDown = MouseButton.RightButton;
             return this;
         }
 
@@ -158,6 +208,7 @@ namespace WindowsInput
         {
             var inputList = new InputBuilder().AddMouseButtonUp(MouseButton.RightButton).ToArray();
             SendSimulatedInput(inputList);
+            this.mouseDown = MouseButton.None;
             return this;
         }
 
@@ -168,6 +219,7 @@ namespace WindowsInput
         {
             var inputList = new InputBuilder().AddMouseButtonClick(MouseButton.RightButton).ToArray();
             SendSimulatedInput(inputList);
+            this.mouseDown = MouseButton.None;
             return this;
         }
 
@@ -178,6 +230,7 @@ namespace WindowsInput
         {
             var inputList = new InputBuilder().AddMouseButtonDoubleClick(MouseButton.RightButton).ToArray();
             SendSimulatedInput(inputList);
+            this.mouseDown = MouseButton.None;
             return this;
         }
 
@@ -189,6 +242,7 @@ namespace WindowsInput
         {
             var inputList = new InputBuilder().AddMouseXButtonDown(buttonId).ToArray();
             SendSimulatedInput(inputList);
+            this.mouseDown = MouseButton.None;
             return this;
         }
 
@@ -200,6 +254,7 @@ namespace WindowsInput
         {
             var inputList = new InputBuilder().AddMouseXButtonUp(buttonId).ToArray();
             SendSimulatedInput(inputList);
+            this.mouseDown = MouseButton.None;
             return this;
         }
 
@@ -211,6 +266,7 @@ namespace WindowsInput
         {
             var inputList = new InputBuilder().AddMouseXButtonClick(buttonId).ToArray();
             SendSimulatedInput(inputList);
+            this.mouseDown = MouseButton.None;
             return this;
         }
 
@@ -222,6 +278,7 @@ namespace WindowsInput
         {
             var inputList = new InputBuilder().AddMouseXButtonDoubleClick(buttonId).ToArray();
             SendSimulatedInput(inputList);
+            this.mouseDown = MouseButton.None;
             return this;
         }
 
