@@ -6,6 +6,10 @@
     public enum MouseButton
     {
         /// <summary>
+        /// No button selected.
+        /// </summary>
+        None,
+        /// <summary>
         /// Left mouse button
         /// </summary>
         LeftButton,

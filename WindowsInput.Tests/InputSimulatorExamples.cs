@@ -1,4 +1,9 @@
 ﻿using NUnit.Framework;
+using System;
+using System.Diagnostics;
+using System.Drawing;
+using System.IO;
+using System.Windows.Forms;
 using WindowsInput.Native;
 
 namespace WindowsInput.Tests
@@ -70,13 +75,70 @@ namespace WindowsInput.Tests
         [Explicit]
         public void TestMouseMoveTo()
         {
+            var bounds = Screen.PrimaryScreen.WorkingArea;
+
             var sim = new InputSimulator();
             sim.Mouse
                .MoveMouseTo(0, 0)
                .Sleep(1000)
-               .MoveMouseTo(65535, 65535)
+               .MoveMouseTo(bounds.Width, bounds.Height)
                .Sleep(1000)
-               .MoveMouseTo(65535/2, 65535/2);
+               .MoveMouseTo(bounds.Width / 2, bounds.Height / 2);
+        }
+
+        [Test]
+        [Explicit]
+        public void TestDragDrop()
+        {
+            Process notepad = Process.Start(Path.Combine(Environment.GetEnvironmentVariable("WINDIR"), "notepad.exe"));
+            notepad.WaitForInputIdle();
+
+            var sim = new InputSimulator();
+
+            var bounds = WaitForMainWindowPosition(notepad, sim);
+            Assert.IsFalse(bounds.IsEmpty, "Window is not showing up");
+
+            // get grab position in the title bar.
+            int x = bounds.Left + (bounds.Width / 2);
+            int y = bounds.Top + 5;
+
+            sim.Mouse
+               .MoveMouseTo(x, y)
+               .Sleep(100)
+               .LeftButtonDown();
+
+            for (int i = 0; i < 100; i += 1)
+            {
+                sim.Mouse.MoveMouseTo(x + i, y).Sleep(1);
+            }
+
+            sim.Mouse.LeftButtonUp();
+
+            notepad.Kill();
+        }
+
+        private Rectangle WaitForMainWindowPosition(Process process, InputSimulator sim, int timeoutMilliseconds = 5000)
+        {
+            int delay = 10; 
+            for (int timeout = 0; timeout < timeoutMilliseconds; timeout += delay)
+            {
+                NativeMethods.WINDOWPLACEMENT placement = new NativeMethods.WINDOWPLACEMENT();
+                NativeMethods.GetWindowPlacement(process.MainWindowHandle, ref placement);
+                var width = (placement.rcNormalPosition.right - placement.rcNormalPosition.left);
+                if (width == 0)
+                {
+                    sim.Mouse.Sleep(delay);
+                }
+                else
+                {
+                    // find a position in the center of the title bar.
+                    var height = (placement.rcNormalPosition.right - placement.rcNormalPosition.left);
+                    var x = placement.rcNormalPosition.left;
+                    var y = placement.rcNormalPosition.top;
+                    return new Rectangle((int)x, (int)y, (int)width, (int)height);
+                }
+            }
+            return Rectangle.Empty;
         }
     }
 }

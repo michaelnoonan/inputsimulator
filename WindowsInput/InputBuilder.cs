@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Windows.Forms;
 using WindowsInput.Native;
 
 namespace WindowsInput
@@ -262,16 +263,39 @@ namespace WindowsInput
             return AddCharacters(characters.ToCharArray());
         }
 
+        private UInt32 GetMouseButtonDownFlag(MouseButton button)
+        {
+            UInt32 flag = 0;
+            switch (button)
+            {
+                case MouseButton.None:
+                    break;
+                case MouseButton.LeftButton:
+                    flag = (UInt32)(MouseFlag.LeftDown);
+                    break;
+                case MouseButton.MiddleButton:
+                    flag = (UInt32)(MouseFlag.MiddleDown);
+                    break;
+                case MouseButton.RightButton:
+                    flag = (UInt32)(MouseFlag.RightDown);
+                    break;
+                default:
+                    break;
+            }
+            return flag;
+        }
+
         /// <summary>
         /// Moves the mouse relative to its current position.
         /// </summary>
         /// <param name="x"></param>
         /// <param name="y"></param>
+        /// <param name="button"></param>
         /// <returns>This <see cref="InputBuilder"/> instance.</returns>
-        public InputBuilder AddRelativeMouseMovement(int x, int y)
+        public InputBuilder AddRelativeMouseMovement(int x, int y, MouseButton button = MouseButton.None)
         {
             var movement = new INPUT { Type = (UInt32)InputType.Mouse };
-            movement.Data.Mouse.Flags = (UInt32)MouseFlag.Move;
+            movement.Data.Mouse.Flags = (UInt32)MouseFlag.Move | GetMouseButtonDownFlag(button);
             movement.Data.Mouse.X = x;
             movement.Data.Mouse.Y = y;
 
@@ -285,13 +309,19 @@ namespace WindowsInput
         /// </summary>
         /// <param name="absoluteX"></param>
         /// <param name="absoluteY"></param>
+        /// <param name="button"></param>
         /// <returns>This <see cref="InputBuilder"/> instance.</returns>
-        public InputBuilder AddAbsoluteMouseMovement(int absoluteX, int absoluteY)
-        {
+        public InputBuilder AddAbsoluteMouseMovement(int absoluteX, int absoluteY, MouseButton button = MouseButton.None)
+        { 
             var movement = new INPUT { Type = (UInt32)InputType.Mouse };
-            movement.Data.Mouse.Flags = (UInt32)(MouseFlag.Move | MouseFlag.Absolute);
-            movement.Data.Mouse.X = absoluteX;
-            movement.Data.Mouse.Y = absoluteY;
+            var flags = (UInt32)(MouseFlag.Move | MouseFlag.Absolute) | GetMouseButtonDownFlag(button);
+            var bounds = Screen.PrimaryScreen.WorkingArea;
+            var vx = absoluteX * 65535 / bounds.Width;
+            var vy = absoluteY * 65535 / bounds.Height;
+
+            movement.Data.Mouse.Flags = flags;
+            movement.Data.Mouse.X = vx;
+            movement.Data.Mouse.Y = vy;
 
             _inputList.Add(movement);
 
@@ -303,11 +333,13 @@ namespace WindowsInput
         /// </summary>
         /// <param name="absoluteX"></param>
         /// <param name="absoluteY"></param>
+        /// <param name="button"></param>
         /// <returns>This <see cref="InputBuilder"/> instance.</returns>
-        public InputBuilder AddAbsoluteMouseMovementOnVirtualDesktop(int absoluteX, int absoluteY)
+        public InputBuilder AddAbsoluteMouseMovementOnVirtualDesktop(int absoluteX, int absoluteY, MouseButton button = MouseButton.None)
         {
             var movement = new INPUT { Type = (UInt32)InputType.Mouse };
-            movement.Data.Mouse.Flags = (UInt32)(MouseFlag.Move | MouseFlag.Absolute | MouseFlag.VirtualDesk);
+            var flags = (UInt32)(MouseFlag.Move | MouseFlag.Absolute | MouseFlag.VirtualDesk) | GetMouseButtonDownFlag(button);           
+            movement.Data.Mouse.Flags = flags;
             movement.Data.Mouse.X = absoluteX;
             movement.Data.Mouse.Y = absoluteY;
 
